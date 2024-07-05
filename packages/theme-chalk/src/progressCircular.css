@@ -1,0 +1,104 @@
+@use './mixins/function.scss' as *;
+.d-progress-circular {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
+  vertical-align: middle;
+}
+
+.d-progress-circular > svg {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+}
+
+.d-progress-circular__content {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.d-progress-circular__underlay {
+  color: getCssVar("border-color");
+  stroke: currentColor;
+  z-index: 1;
+}
+
+.d-progress-circular__overlay {
+  stroke: currentColor;
+  transition: all 0.2s ease-in-out, stroke-width 0s;
+  z-index: 2;
+}
+
+.d-progress-circular--indeterminate > svg {
+  -webkit-animation: progress-circular-rotate 1.4s linear infinite;
+  animation: progress-circular-rotate 1.4s linear infinite;
+  transform-origin: center center;
+  transition: all 0.2s ease-in-out;
+}
+
+.d-progress-circular--indeterminate .d-progress-circular__overlay {
+  -webkit-animation: progress-circular-dash 1.4s ease-in-out infinite, progress-circular-rotate 1.4s linear infinite;
+  animation: progress-circular-dash 1.4s ease-in-out infinite, progress-circular-rotate 1.4s linear infinite;
+  stroke-dasharray: 25, 200;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  transform-origin: center center;
+  transform: rotate(-90deg);
+}
+
+.d-progress-circular--indeterminate:not(.d-progress-circular--visible) > svg,
+.d-progress-circular--indeterminate:not(.d-progress-circular--visible)
+.d-progress-circular__overlay {
+  -webkit-animation-play-state: paused !important;
+  animation-play-state: paused !important;
+}
+
+@-webkit-keyframes progress-circular-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0px;
+  }
+  50% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -15px;
+  }
+  100% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+@keyframes progress-circular-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0px;
+  }
+  50% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -15px;
+  }
+  100% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+@-webkit-keyframes progress-circular-rotate {
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+@keyframes progress-circular-rotate {
+  100% {
+    transform: rotate(270deg);
+  }
+}

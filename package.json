@@ -1,0 +1,50 @@
+{
+  "name": "dong-ui",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "packages/*",
+    "play",
+    "docs"
+  ],
+  "scripts": {
+    "dev": "pnpm -C play dev",
+    "build": "pnpm -C play build",
+    "build:component": "node ./scripts/build.js",
+    "build:style": "pnpm run -C packages/theme-chalk build",
+    "docs:dev": "pnpm run -C docs storybook",
+    "docs:build": "pnpm run -C docs build-storybook"
+  },
+  "dependencies": {
+    "@dong-ui/components": "workspace:*",
+    "@dong-ui/directives": "workspace:*",
+    "@dong-ui/hooks": "workspace:*",
+    "@dong-ui/theme-chalk": "workspace:*",
+    "@dong-ui/utils": "workspace:*",
+    "@vue/shared": "^3.4.27",
+    "lodash-unified": "^1.0.3",
+    "md5": "^2.3.0",
+    "pdfjs-dist": "^4.3.136",
+    "sortablejs": "^1.15.2",
+    "vue-demi": "latest"
+  },
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-typescript": "^7.24.7",
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^20.14.2",
+    "@types/sortablejs": "^1.15.8",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitejs/plugin-vue-jsx": "^4.0.0",
+    "fs-extra": "^11.2.0",
+    "sass": "^1.77.4",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vue": "^3.4.21",
+    "vue-tsc": "^2.0.6"
+  }
+}
