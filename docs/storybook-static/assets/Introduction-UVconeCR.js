@@ -1,4 +1,4 @@
-import{j as n,M as r}from"./index-CjQ3xkBL.js";import{u as d}from"./index-NiZhxCGL.js";import"./iframe-DHHu9scL.js";import"../sb-preview/runtime.js";import"./_commonjsHelpers-Cpj98o6Y.js";import"./index-D-8MO0q_.js";import"./index-Dv1YWgiV.js";import"./index-DrFu-skq.js";function s(e){const i={a:"a",h1:"h1",h2:"h2",p:"p",...d(),...e.components};return n.jsxs(n.Fragment,{children:[n.jsx(r,{title:"介绍/为什么选择DYQ-UI"}),`
+import{j as n,M as r}from"./index-BFg4kp-J.js";import{u as d}from"./index-8ZzdBU6E.js";import"./iframe-DDbmkL37.js";import"../sb-preview/runtime.js";import"./_commonjsHelpers-Cpj98o6Y.js";import"./index-D-8MO0q_.js";import"./index-Dv1YWgiV.js";import"./index-DrFu-skq.js";function s(e){const i={a:"a",h1:"h1",h2:"h2",p:"p",...d(),...e.components};return n.jsxs(n.Fragment,{children:[n.jsx(r,{title:"介绍/为什么选择DYQ-UI"}),`
 `,n.jsx(i.h1,{id:"介绍",children:"介绍"}),`
 `,n.jsx(i.p,{children:"了解 dyq-ui 是什么，如何从头开始创建应用程序，浏览 API 参考，示例代码，教程等更多信息。"}),`
 `,n.jsx(i.h2,{id:"什么是dyq-ui",children:"什么是DYQ-UI?"}),`

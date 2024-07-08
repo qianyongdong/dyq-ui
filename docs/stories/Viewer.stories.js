@@ -7,7 +7,7 @@ export default {
   component: DViewer,
   tags: ['autodocs'],
   argTypes: {
-    src: { control: { type: 'select' }, options: ["/1.jpg", "/1.png", "/1.bmp", "/1.pdf", "/1.tif"], description: '文件地址,支持文件格式png', type: 'string|dataUrl|File' },
+    src: { control: { type: 'select' }, options: ["./1.jpg", "./1.png", "./1.bmp", "./1.pdf", "./1.tif"], description: '文件地址,支持文件格式png', type: 'string|dataUrl|File' },
     transform: {
       description: "视图变换",
       defaultValue: {
@@ -38,7 +38,7 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default = {
   args: {
-    src: '/1.jpg',
+    src: './1.jpg',
   },
 };
 

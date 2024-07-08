@@ -16,7 +16,6 @@ import { debounce, throttle } from 'lodash-unified';
 import { useResizeObserver } from '@dyq-ui/hooks/resizeObserver';
 import { objectMap, getFileTypeAndArrayBuffer } from '@dyq-ui/utils';
 import getDocument from './utils';
-import middleware from './utils/middleware';
 import Page, { type Transform } from './page';
 import { DProgressCircular } from '../../progress-circular';
 import '../../progress-circular/style';
@@ -137,21 +136,7 @@ export const DViewer = defineComponent<ViewerProps>({
     // 第一页渲染完成
     const isFirstPageRendered = ref(false);
     // 所有页
-    const pages = computed(() =>
-      Array.from(
-        {
-          length: pageCount.value
-            ? isFirstPageRendered.value
-              ? pageCount.value
-              : 1
-            : 0,
-        },
-        (_, i) => ({
-          key: i,
-          pageNum: i + 1,
-        })
-      )
-    );
+    const pageRefs: Ref<any[]> = ref([]);
     // 元素观察器
     const resizeObserverCallback = (entries: any[]) => {};
     const { resizeRef, contentRect } = useResizeObserver(
@@ -279,25 +264,67 @@ export const DViewer = defineComponent<ViewerProps>({
       }
       transform.value.rotate = rotate;
     };
-    const scrollToPage = (pageNum: number) => {
-      middleware.emit('PAGE:SCROLL_TO', pageNum);
+    let focusedElement: Element | null = null;
+
+    const addAnnotation = (pageNum: number, annotation: Element) => {
+      const pageRef = pageRefs.value[pageNum - 1];
+      if (!pageRef) return;
+      const annotationLayer = pageRef.annotationLayerRef;
+      if (!annotation || !annotationLayer) return;
+      const promise = new Promise((resolve, reject) => {
+        const timer = setInterval(() => {
+          if (pageRef.renderState === 2) {
+            clearInterval(timer);
+            resolve(null);
+          }
+        }, 200);
+      });
+      requestAnimationFrame(async () => {
+        await promise;
+        annotationLayer.appendChild(annotation);
+      });
     };
-    let focusedPageNum: number = -1;
+    const createAnnotation = ([x, y] = [0, 0], [width, height] = [0, 0]) => {
+      const element = document.createElement('div');
+      element.style.position = 'absolute';
+      element.style.left = `round(var(--scale-factor) * ${x}px, 1px)`;
+      element.style.top = `round(var(--scale-factor) * ${y}px, 1px)`;
+      element.style.width = `round(var(--scale-factor) * ${width}px, 1px)`;
+      element.style.height = `round(var(--scale-factor) * ${height}px, 1px)`;
+      element.style.border = '1px dashed red';
+      element.style.backgroundColor = 'transparent';
+      return element;
+    };
+    const scrollToPage = (pageNum: number) => {
+      const pageRef = pageRefs.value[pageNum - 1];
+      if (!pageRef) return;
+      pageRef.$el.scrollIntoView(true);
+    };
+    const addMagnifyArea = (
+      origin: [number, number] = [0, 0],
+      size: [number, number] = [10, 10],
+      pageNum = 0
+    ) => {
+      focusedElement = createAnnotation(origin, size);
+      addAnnotation(pageNum, focusedElement);
+    };
+    const removeMagnifyArea = () => {
+      if (!focusedElement) return;
+      focusedElement.remove();
+      focusedElement = null;
+    };
     const createMagnifyArea = (
       origin: [number, number] = [0, 0],
       size: [number, number] = [10, 10],
       pageNum = 1
     ) => {
-      if (focusedPageNum > -1) {
+      if (focusedElement) {
         return;
       }
       scrollToPage(pageNum);
       requestAnimationFrame(() => {
-        middleware.emit('PAGE:CREATE_MAGNIFY_AREA', origin, size, pageNum);
+        addMagnifyArea(origin, size, pageNum);
       });
-    };
-    const removeMagnifyArea = () => {
-      middleware.emit('PAGE:REMOVE_MAGNIFY_AREA');
     };
     const data = reactive({
       zoomIn,
@@ -357,25 +384,35 @@ export const DViewer = defineComponent<ViewerProps>({
               class="pdfViewer"
               style={{ '--scale-factor': `${transform.value.scale}` }}
             >
-              {pages.value.map((page) => (
-                <Page
-                  {...page}
-                  instance={fileInstance}
-                  devicePixelRatio={devicePixelRatio}
-                  onRendered={onRendered}
-                  onError={onError}
-                  containerSize={containerSize.value}
-                  transform={transform.value}
-                  // style={{
-                  //   transform: `rotate(${options.value.transform.rotate}deg) rotateX(${options.value.transform.yFlip ? 0.5 : 0}turn) rotateY(${options.value.transform.xFlip ? 0.5 : 0}turn)`,
-                  // }}
-                >
-                  {{
-                    placeholder: () => slot_placeholder.value,
-                    error: () => slot_error.value,
-                  }}
-                </Page>
-              ))}
+              {Array.from(
+                {
+                  length: pageCount.value
+                    ? isFirstPageRendered.value
+                      ? pageCount.value
+                      : 1
+                    : 0,
+                },
+                (_, index) => (
+                  <Page
+                    ref={(el: any) => {
+                      pageRefs.value[index] = el;
+                    }}
+                    key={index}
+                    pageNum={index + 1}
+                    instance={fileInstance}
+                    devicePixelRatio={devicePixelRatio}
+                    onRendered={onRendered}
+                    onError={onError}
+                    containerSize={containerSize.value}
+                    transform={transform.value}
+                  >
+                    {{
+                      placeholder: () => slot_placeholder.value,
+                      error: () => slot_error.value,
+                    }}
+                  </Page>
+                )
+              )}
             </div>
           </div>
         </div>

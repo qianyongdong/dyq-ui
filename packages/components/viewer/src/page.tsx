@@ -13,7 +13,6 @@ import { TextLayer } from 'pdfjs-dist';
 import { debounce } from 'lodash-unified';
 import { useIntersectionObserver } from '@dyq-ui/hooks/intersectionObserver';
 import { objectMap } from '@dyq-ui/utils';
-import middleware from './utils/middleware';
 
 export interface Transform {
   scale?: number;
@@ -207,55 +206,13 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
       canvas.style.width = '100%';
       canvas.style.height = '100%';
     };
-    const addAnnotation = (annotation: Element) => {
-      const annotationLayer = annotationLayerRef.value;
-      if (!annotation || !annotationLayer) return;
-      const promise = new Promise((resolve, reject) => {
-        const timer = setInterval(() => {
-          if (renderState.value === 2) {
-            clearInterval(timer);
-            resolve(null);
-          }
-        }, 200);
-      });
-      requestAnimationFrame(async () => {
-        await promise;
-        annotationLayer.appendChild(annotation);
-      });
-    };
-    const createAnnotation = ([x, y] = [0, 0], [width, height] = [0, 0]) => {
-      const element = document.createElement('div');
-      element.style.position = 'absolute';
-      element.style.left = `round(var(--scale-factor) * ${x}px, 1px)`;
-      element.style.top = `round(var(--scale-factor) * ${y}px, 1px)`;
-      element.style.width = `round(var(--scale-factor) * ${width}px, 1px)`;
-      element.style.height = `round(var(--scale-factor) * ${height}px, 1px)`;
-      element.style.border = '1px dashed red';
-      element.style.backgroundColor = 'transparent';
-      return element;
-    };
-    let focusedElement: Element | null = null;
-    const scrollToPage = (pageNum: number) => {
-      const pageEl = pageRef.value;
-      if (+pageNum !== +props.pageNum || !pageEl) return;
-      pageEl.scrollIntoView(true);
-    };
-    const createMagnifyArea = (
-      origin: [number, number] = [0, 0],
-      size: [number, number] = [10, 10],
-      pageNum = 0
-    ) => {
-      if (+pageNum !== +props.pageNum || focusedElement) {
-        return;
-      }
-      focusedElement = createAnnotation(origin, size);
-      addAnnotation(focusedElement);
-    };
-    const removeMagnifyArea = () => {
-      if (!focusedElement) return;
-      focusedElement.remove();
-      focusedElement = null;
-    };
+    expose({
+      textLayerRef,
+      annotationLayerRef,
+      canvasRef,
+      renderState,
+      isRenderError,
+    });
     onMounted(() => {
       intersectionRef.value = pageRef.value as HTMLElement;
       watch(
@@ -269,9 +226,6 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
           immediate: true,
         }
       );
-      middleware.on('PAGE:SCROLL_TO', scrollToPage);
-      middleware.on('PAGE:CREATE_MAGNIFY_AREA', createMagnifyArea);
-      middleware.on('PAGE:REMOVE_MAGNIFY_AREA', removeMagnifyArea);
     });
     return () => (
       <div class="d-page" ref={pageRef}>

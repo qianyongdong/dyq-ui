@@ -1,4 +1,4 @@
-import{j as e,M as s,d as i}from"./index-CjQ3xkBL.js";import{u as p}from"./index-NiZhxCGL.js";import"./iframe-DHHu9scL.js";import"../sb-preview/runtime.js";import"./_commonjsHelpers-Cpj98o6Y.js";import"./index-D-8MO0q_.js";import"./index-Dv1YWgiV.js";import"./index-DrFu-skq.js";function r(n){const t={h1:"h1",h2:"h2",h3:"h3",p:"p",...p(),...n.components};return e.jsxs(e.Fragment,{children:[e.jsx(s,{title:"快速开始/安装"}),`
+import{j as e,M as s,d as i}from"./index-BFg4kp-J.js";import{u as p}from"./index-8ZzdBU6E.js";import"./iframe-DDbmkL37.js";import"../sb-preview/runtime.js";import"./_commonjsHelpers-Cpj98o6Y.js";import"./index-D-8MO0q_.js";import"./index-Dv1YWgiV.js";import"./index-DrFu-skq.js";function r(n){const t={h1:"h1",h2:"h2",h3:"h3",p:"p",...p(),...n.components};return e.jsxs(e.Fragment,{children:[e.jsx(s,{title:"快速开始/安装"}),`
 `,e.jsx(t.h1,{id:"开始使用-dyq-ui",children:"开始使用 dyq-ui"}),`
 `,e.jsx(t.p,{children:"让我们从 dyq-ui 开始吧。"}),`
 `,e.jsx(t.h2,{id:"安装",children:"安装"}),`
