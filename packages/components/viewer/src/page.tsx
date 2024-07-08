@@ -11,8 +11,8 @@ import {
 import type { Ref } from 'vue-demi';
 import { TextLayer } from 'pdfjs-dist';
 import { debounce } from 'lodash-unified';
-import { useIntersectionObserver } from '@dong-ui/hooks/intersectionObserver';
-import { objectMap } from '@dong-ui/utils';
+import { useIntersectionObserver } from '@dyq-ui/hooks/intersectionObserver';
+import { objectMap } from '@dyq-ui/utils';
 import middleware from './utils/middleware';
 
 export interface Transform {

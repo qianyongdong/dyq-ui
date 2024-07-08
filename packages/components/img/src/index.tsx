@@ -8,7 +8,7 @@ import {
   toRefs,
 } from 'vue-demi';
 import type { Ref } from 'vue-demi';
-import { objectMap } from '@dong-ui/utils';
+import { objectMap } from '@dyq-ui/utils';
 
 interface ImgProps {
   src: string;

@@ -1,1 +1,1 @@
-import '@dong-ui/components/base/style';
+import '@dyq-ui/components/base/style';

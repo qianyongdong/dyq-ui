@@ -2,13 +2,13 @@
 import { ref, onMounted } from 'vue';
 import type { Ref } from 'vue';
 import decode from './bmp-js-browser'
-import { DViewer, DImg, DAuthority, DList } from '@dong-ui/components';
+import { DViewer, DImg, DAuthority, DList } from '@dyq-ui/components';
 import { SortableEvent } from "sortablejs";
-import type { MimeType } from '@dong-ui/components';
-import "@dong-ui/components/viewer/style"
-import "@dong-ui/components/list/style"
-import { setAuth } from '@dong-ui/utils';
-import { vSlideIn } from '@dong-ui/directives';
+import type { MimeType } from '@dyq-ui/components';
+import "@dyq-ui/components/viewer/style"
+import "@dyq-ui/components/list/style"
+import { setAuth } from '@dyq-ui/utils';
+import { vSlideIn } from '@dyq-ui/directives';
 import imgUrl from './assets/1.jpg';
 import bmpUrl from './assets/1.bmp';
 import pdfUrl from './assets/1.pdf';

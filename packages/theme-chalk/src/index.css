@@ -242,3 +242,70 @@
 .d-opacity-transition {
   transition: opacity var(--d-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);
 }
+
+.h-100 {
+  height: 100%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.a-100 {
+  width: 100%;
+  height: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-content {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.error {
+  color: var(--d-color-error);
+}
+
+.contain {
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
+.cover {
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.move {
+  cursor: move;
+}
+
+.z-index-5 {
+  z-index: 5;
+}
+
+.contain-strict {
+  contain: strict;
+}

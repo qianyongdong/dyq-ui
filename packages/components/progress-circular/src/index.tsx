@@ -1,6 +1,6 @@
 import { defineComponent, watchEffect, computed, ref } from 'vue-demi';
-import { useIntersectionObserver } from '@dong-ui/hooks/intersectionObserver';
-import { useResizeObserver } from '@dong-ui/hooks/resizeObserver';
+import { useIntersectionObserver } from '@dyq-ui/hooks/intersectionObserver';
+import { useResizeObserver } from '@dyq-ui/hooks/resizeObserver';
 export interface ProgressCircularProps {
   modelValue?: number;
   color?: string;

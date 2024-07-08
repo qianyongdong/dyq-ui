@@ -1,9 +1,11 @@
-# Vue 3 + TypeScript + Vite
+# dyq-ui
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+dyq-ui 由一些拥有丰富而强大的特性的，预定义组件组成。这些特性包括例如 动态主题、全局默认值、应用框架等等构成。它以提供给开发者丰富的工具，给用户良好而丰富的使用体验为最终目标。
 
-## Recommended Setup
+## 快速开始
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+从npm安装
 
-- Use [vue-tsc](https://github.com/vuejs/language-tools/tree/master/packages/tsc) for performing the same type checking from the command line, or for generating d.ts files for SFCs.
+```
+npm install dyq-ui
+```

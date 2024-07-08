@@ -1,6 +1,5 @@
 {
-  "name": "dong-ui",
-  "private": true,
+  "name": "dyq-ui",
   "version": "0.0.0",
   "workspaces": [
     "packages/*",
@@ -16,11 +15,11 @@
     "docs:build": "pnpm run -C docs build-storybook"
   },
   "dependencies": {
-    "@dong-ui/components": "workspace:*",
-    "@dong-ui/directives": "workspace:*",
-    "@dong-ui/hooks": "workspace:*",
-    "@dong-ui/theme-chalk": "workspace:*",
-    "@dong-ui/utils": "workspace:*",
+    "@dyq-ui/components": "workspace:*",
+    "@dyq-ui/directives": "workspace:*",
+    "@dyq-ui/hooks": "workspace:*",
+    "@dyq-ui/theme-chalk": "workspace:*",
+    "@dyq-ui/utils": "workspace:*",
     "@vue/shared": "^3.4.27",
     "lodash-unified": "^1.0.3",
     "md5": "^2.3.0",

@@ -8,19 +8,19 @@ importers:
 
   .:
     dependencies:
-      '@dong-ui/components':
+      '@dyq-ui/components':
         specifier: workspace:*
         version: link:packages/components
-      '@dong-ui/directives':
+      '@dyq-ui/directives':
         specifier: workspace:*
         version: link:packages/directives
-      '@dong-ui/hooks':
+      '@dyq-ui/hooks':
         specifier: workspace:*
         version: link:packages/hooks
-      '@dong-ui/theme-chalk':
+      '@dyq-ui/theme-chalk':
         specifier: workspace:*
         version: link:packages/theme-chalk
-      '@dong-ui/utils':
+      '@dyq-ui/utils':
         specifier: workspace:*
         version: link:packages/utils
       '@vue/shared':

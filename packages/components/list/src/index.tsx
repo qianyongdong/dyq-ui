@@ -7,8 +7,8 @@ import {
   unref,
   toRefs,
 } from 'vue-demi';
-import { objectMap, calculateMaxChildren } from '@dong-ui/utils';
-import { useResizeObserver } from '@dong-ui/hooks/resizeObserver';
+import { objectMap, calculateMaxChildren } from '@dyq-ui/utils';
+import { useResizeObserver } from '@dyq-ui/hooks/resizeObserver';
 import { useDraggable, UseDraggableOptions } from './useDraggable';
 
 interface ListProps extends UseDraggableOptions<any> {

@@ -1,1 +1,1 @@
-import '@dong-ui/theme-chalk/src/base.scss';
+import '@dyq-ui/theme-chalk/src/base.scss';

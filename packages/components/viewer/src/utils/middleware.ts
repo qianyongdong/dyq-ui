@@ -1,4 +1,4 @@
-import EventEmitter from '@dong-ui/utils/eventEmitter';
+import EventEmitter from '@dyq-ui/utils/eventEmitter';
 
 const eventNames = [
   'PAGE:SCROLL_TO',

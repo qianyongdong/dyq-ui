@@ -1,10 +1,9 @@
 import { defineComponent as u, computed as o, h as s } from "vue-demi";
-import "vue";
 function a() {
   const e = localStorage.getItem("auth");
   return e ? e.split(",").filter(Boolean) : [];
 }
-const l = ["permission"], c = u({
+const l = ["permission"], m = u({
   name: "DAuthority",
   props: l,
   setup(e, { slots: t }) {
@@ -13,7 +12,7 @@ const l = ["permission"], c = u({
   }
 });
 export {
-  c as DAuthority,
+  m as DAuthority,
   l as authorityProps,
-  c as default
+  m as default
 };

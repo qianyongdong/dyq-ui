@@ -1,18 +1,15 @@
 {
-  "name": "authority",
-  "version": "0.0.0",
-  "description": "兼容vue2和vue3的通用组件库",
-  "main": "index.umd.js",
-  "module": "index.mjs",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/qianyongdong/dong-ui.git"
-  },
-  "keywords": [
-    "vue",
-    "组件库",
-    "UI"
-  ],
-  "author": "qianyongdong",
-  "license": "ISC"
-}
+    "name": "authority",
+    "version": "0.0.0",
+    "description": "兼容vue2和vue3的通用组件库",
+    "main": "index.umd.js",
+    "module":"index.mjs",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/qianyongdong/dyq-ui.git"
+    },
+    "keywords": ["vue", "组件库", "UI"],
+    "author": "qianyongdong",
+    "license": "ISC"
+  }
+  

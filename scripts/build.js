@@ -26,14 +26,14 @@ const outputDir = path.resolve(__dirname, "../build")
 // 生成 package.json
 const createPackageJson = name => {
     const fileStr = `{
-    "name": "${name ? name : "dong-ui"}",
+    "name": "${name ? name : "dyq-ui"}",
     "version": "${version}",
     "description": "兼容vue2和vue3的通用组件库",
     "main": "index.umd.js",
     "module":"index.mjs",
     "repository": {
       "type": "git",
-      "url": "git+https://github.com/qianyongdong/dong-ui.git"
+      "url": "git+https://github.com/qianyongdong/dyq-ui.git"
     },
     "keywords": ["vue", "组件库", "UI"],
     "author": "qianyongdong",

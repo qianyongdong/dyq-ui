@@ -1,7 +1,7 @@
 // Utilities
 import { onBeforeUnmount, readonly, ref, watch } from 'vue-demi';
-import { templateRef } from '@dong-ui/utils/helper';
-import type { TemplateRef } from '@dong-ui/utils/helper';
+import { templateRef } from '@dyq-ui/utils/helper';
+import type { TemplateRef } from '@dyq-ui/utils/helper';
 // Types
 import type { DeepReadonly, Ref } from 'vue-demi';
 

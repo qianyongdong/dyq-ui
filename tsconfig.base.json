@@ -20,7 +20,7 @@
     "forceConsistentCasingInFileNames": true,
     "types": [],
     "paths": {
-      "@dong-ui/*": ["packages/*"]
+      "@dyq-ui/*": ["packages/*"]
     }
   }
 }

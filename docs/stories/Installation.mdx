@@ -2,29 +2,29 @@ import { Meta , Source } from '@storybook/blocks';
 
 <Meta title="快速开始/安装" />
 
-# 开始使用 dong-ui
-让我们从 dong-ui 开始吧。
+# 开始使用 dyq-ui
+让我们从 dyq-ui 开始吧。
 
 ## 安装
-如果您想要 Dong-ui 添加到现有的项目，请按照这些步骤操作。
+如果您想要 Dyq-ui 添加到现有的项目，请按照这些步骤操作。
 
 npm:
 <Source
 type="dynamic"
 language="bash"
-code="npm install dong-ui" dark />
+code="npm install dyq-ui" dark />
 
 or yarn:
 <Source
 type="dynamic"
 language="bash"
-code="yarn add dong-ui" dark />
+code="yarn add dyq-ui" dark />
 
 or pnpm:
 <Source
 type="dynamic"
 language="bash"
-code="pnpm add dong-ui" dark />
+code="pnpm add dyq-ui" dark />
 
 ### 完整引入
 在 main.js 中写入以下内容：
@@ -35,8 +35,8 @@ type="dynamic"
 language="typescript"
 code={`
 import { createApp } from 'vue'
-import DUi from 'dong-ui'
-import 'dong-ui/dist/index.css'
+import DUi from 'dyq-ui'
+import 'dyq-ui/dist/index.css'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -51,8 +51,8 @@ type="dynamic"
 language="typescript"
 code={`
 import Vue from 'vue';
-import DUi from 'dong-ui';
-import 'dong-ui/lib/theme-chalk/index.css';
+import DUi from 'dyq-ui';
+import 'dyq-ui/lib/theme-chalk/index.css';
 import App from './App.vue';
 
 Vue.use(DUi);
@@ -76,8 +76,8 @@ code={`
 </template>
 <script setup>
   import {ref} from 'vue'
-  import { DList } from 'dong-ui'
-  import "dong-ui/components/list/style"
+  import { DList } from 'dyq-ui'
+  import "dyq-ui/components/list/style"
   const list = ref(Array.from({ length: 9 }, (_, i) => i + 1))
 </script>
 `} dark />
@@ -91,8 +91,8 @@ code={`
   <d-list v-model="list" />
 </template>
 <script>
-  import { DList } from 'dong-ui'
-  import "dong-ui/components/list/style"
+  import { DList } from 'dyq-ui'
+  import "dyq-ui/components/list/style"
   export default {
     components: { DList },
     data:{
@@ -105,4 +105,4 @@ code={`
 `} dark />
 
 ## 开始使用
-至此，一个基于 Vue 和 Dong-ui 的开发环境已经搭建完毕，现在就可以编写代码了。各个组件的使用方法请参阅它们各自的文档。
+至此，一个基于 Vue 和 Dyq-ui 的开发环境已经搭建完毕，现在就可以编写代码了。各个组件的使用方法请参阅它们各自的文档。

@@ -13,8 +13,8 @@ import {
   type Ref,
 } from 'vue-demi';
 import { debounce, throttle } from 'lodash-unified';
-import { useResizeObserver } from '@dong-ui/hooks/resizeObserver';
-import { objectMap, getFileTypeAndArrayBuffer } from '@dong-ui/utils';
+import { useResizeObserver } from '@dyq-ui/hooks/resizeObserver';
+import { objectMap, getFileTypeAndArrayBuffer } from '@dyq-ui/utils';
 import getDocument from './utils';
 import middleware from './utils/middleware';
 import Page, { type Transform } from './page';

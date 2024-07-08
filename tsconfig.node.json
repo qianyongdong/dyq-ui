@@ -6,10 +6,6 @@
     "types": ["node"],
     "skipLibCheck": true
   },
-  "include": [
-    "scripts/**/*",
-    "packages/theme-chalk/*",
-    "packages/dong-ui/package.json"
-  ],
+  "include": ["scripts/**/*", "packages/theme-chalk/*", "packages/dyq-ui/*"],
   "exclude": ["**/__tests__/**", "**/tests/**", "**/dist"]
 }

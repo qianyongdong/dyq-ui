@@ -1,5 +1,5 @@
 import { defineComponent, h, computed } from 'vue-demi';
-import { getAuth } from '@dong-ui/utils';
+import { getAuth } from '@dyq-ui/utils';
 
 interface AuthorityProps {
   permission: string | string[];
