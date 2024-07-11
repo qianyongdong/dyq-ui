@@ -6,6 +6,11 @@
     "types": ["node"],
     "skipLibCheck": true
   },
-  "include": ["scripts/**/*", "packages/theme-chalk/*", "packages/dyq-ui/*"],
+  "include": [
+    "scripts/**/*",
+    "packages/theme-chalk/*",
+    "packages/*/*",
+    "scripts/rollup.js"
+  ],
   "exclude": ["**/__tests__/**", "**/tests/**", "**/dist"]
 }

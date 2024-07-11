@@ -1,4 +1,6 @@
-export * from './viewer';
-export * from './img';
+// export * from './viewer';
 export * from './authority';
-export * from './list';
+// export * from './list';
+import installer from './install';
+
+export default installer;

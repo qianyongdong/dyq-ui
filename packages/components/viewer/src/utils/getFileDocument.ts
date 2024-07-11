@@ -1,7 +1,14 @@
 // @ts-ignore
 import MD5 from 'md5';
+// @ts-ignore
+import mainWorker from './worker?worker&inline';
+// @ts-ignore
+import offscreenCanvasWorker from './offscreenCanvas.worker?worker&inline';
 import { FileTypeName } from '../index';
-const worker = new Worker(new URL('./worker.js', import.meta.url));
+// const worker = new Worker(new URL('./worker.js?worker', import.meta.url), {
+//   type: 'module',
+// });
+const worker = new mainWorker({ type: 'module' });
 const temp: any = {};
 async function getPage(pageNum: number) {
   // @ts-ignore
@@ -94,12 +101,13 @@ function render({ canvasContext, viewport }: any) {
         return;
       }
       if (!offscreenWorkerArray[pageIndex]) {
-        const offscreenWorker = new Worker(
-          new URL('./offscreenCanvas.worker.js', import.meta.url)
-        );
+        // const offscreenWorker = new Worker(
+        //   new URL('./offscreenCanvas.worker.js?worker', import.meta.url)
+        // );
+        const offscreenWorker = new offscreenCanvasWorker();
         offscreenWorkerArray[pageIndex] = offscreenWorker;
 
-        offscreenWorker.onmessage = ({ data }) => {
+        offscreenWorker.onmessage = ({ data }: { data: any }) => {
           console.log('offscreenWorker.onmessage', data);
           if (data) {
             if (data instanceof ImageBitmap) {
@@ -171,7 +179,7 @@ const capabilityObj = {
   },
 };
 
-worker.onmessage = (e) => {
+worker.onmessage = (e: any) => {
   const {
     _eventName,
     _errorMessage,

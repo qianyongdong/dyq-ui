@@ -6,6 +6,7 @@ import {
   computed,
   unref,
   toRefs,
+  type App,
 } from 'vue-demi';
 import { objectMap, calculateMaxChildren } from '@dyq-ui/utils';
 import { useResizeObserver } from '@dyq-ui/hooks/resizeObserver';
@@ -127,4 +128,8 @@ export const DList = defineComponent<ListProps>({
   },
 });
 
+DList.install = (app: App) => {
+  const name = DList.name as string;
+  app.component(name, DList);
+};
 export default DList;

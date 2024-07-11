@@ -225,3 +225,4 @@ function decode(arrayBuffer) {
 }
 
 var BMP = { decode, toRGBA8, decodeImage };
+export default BMP 

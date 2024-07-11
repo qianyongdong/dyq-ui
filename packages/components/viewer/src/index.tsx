@@ -11,6 +11,7 @@ import {
   onMounted,
   watch,
   type Ref,
+  type App,
 } from 'vue-demi';
 import { debounce, throttle } from 'lodash-unified';
 import { useResizeObserver } from '@dyq-ui/hooks/resizeObserver';
@@ -420,5 +421,8 @@ export const DViewer = defineComponent<ViewerProps>({
     );
   },
 });
-
+DViewer.install = (app: App) => {
+  const name = DViewer.name as string;
+  app.component(name, DViewer);
+};
 export default DViewer;

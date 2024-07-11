@@ -1,28 +1,42 @@
-const path = require("path")
-const fs = require("fs")
-const fsExtra = require("fs-extra")
-// 引入 vite 的 build 方法，进行编译构建
-const { defineConfig, build } = require("vite")
-const vue = require("@vitejs/plugin-vue")
-const vueJSX = require("@vitejs/plugin-vue-jsx")
-const version = require("../package.json").version
+const path = require("path");
+const fs = require("fs");
+const fsExtra = require("fs-extra");
+const { defineConfig, build } = require("vite");
+const vue = require("@vitejs/plugin-vue");
+const vueJSX = require("@vitejs/plugin-vue-jsx");
+const version = require("../package.json").version;
 
 // 基础配置
 const baseConfig = defineConfig({
     publicDir: false,
-    plugins: [vue(), vueJSX()]
-})
+    plugins: [vue(), vueJSX()],
+    optimizeDeps: {
+        exclude: ['vue-demi'],
+    },
+    build: {
+        rollupOptions: {
+            external: ['vue', 'vue-demi'],
+            output: {
+                globals: {
+                    vue: 'Vue',
+                    'vue-demi': 'VueDemi',
+                },
+            },
+        },
+    },
+});
 const rollupOptions = defineConfig({
     // that shouldn't be bundled
-    external: ["vue"],
+    external: ["vue", 'vue-demi'],
     globals: {
-        vue: "Vue"
+        vue: "Vue",
+        'vue-demi': 'VueDemi',
     }
-})
+});
 // 组件库全局入口
-const componentsDir = path.resolve(__dirname, "../packages/components")
+const componentsDir = path.resolve(__dirname, "../packages/components");
 // 输出目录
-const outputDir = path.resolve(__dirname, "../build")
+const outputDir = path.resolve(__dirname, "../build");
 // 生成 package.json
 const createPackageJson = name => {
     const fileStr = `{
@@ -30,24 +44,37 @@ const createPackageJson = name => {
     "version": "${version}",
     "description": "兼容vue2和vue3的通用组件库",
     "main": "index.umd.js",
-    "module":"index.mjs",
+    "module": "index.mjs",
+    "types": "index.d.ts",
     "repository": {
       "type": "git",
       "url": "git+https://github.com/qianyongdong/dyq-ui.git"
     },
     "keywords": ["vue", "组件库", "UI"],
     "author": "qianyongdong",
-    "license": "ISC"
+    "license": "ISC",
+    "dependencies": {
+    "vue-demi": "latest"
+    },
+    "peerDependencies": {
+        "@vue/composition-api": "latest",
+        "vue": "^2.0.0 || >=3.0.0"
+    },
+    "peerDependenciesMeta": {
+        "@vue/composition-api": {
+            "optional": true
+            }
+    }
   }
-  `
+  `;
     // 单个组件 or 全量
     const filePath = path.resolve(
         outputDir,
         name ? `${name}/package.json` : `package.json`
-    )
+    );
 
-    fsExtra.outputFile(filePath, fileStr, "utf-8")
-}
+    fsExtra.outputFile(filePath, fileStr, "utf-8");
+};
 
 /** 单组件按需构建 */
 const buildSingle = async name => {
@@ -65,10 +92,10 @@ const buildSingle = async name => {
                 outDir: path.resolve(outputDir, name)
             }
         })
-    )
+    );
 
-    createPackageJson(name)
-}
+    createPackageJson(name);
+};
 
 /** 全量构建 */
 const buildAll = async () => {
@@ -86,44 +113,44 @@ const buildAll = async () => {
                 outDir: outputDir
             }
         })
-    )
+    );
 
-    createPackageJson()
-}
+    createPackageJson();
+};
 
 // copy文件
 // README.md
 // 样式 index.css
 const copyFiles = () => {
-    const markdown = fs.createReadStream(path.resolve(__dirname, "../README.md"))
+    const markdown = fs.createReadStream(path.resolve(__dirname, "../README.md"));
     const style = fs.createReadStream(
         path.resolve(__dirname, "../packages/theme-chalk/src/index.css")
-    )
+    );
     markdown.pipe(
         fs.createWriteStream(path.resolve(__dirname, "../build/README.md"))
-    )
+    );
     style.pipe(
         fs.createWriteStream(path.resolve(__dirname, "../build/index.css"))
-    )
-}
+    );
+};
 
 const buildLib = async () => {
-    await buildAll()
+    await buildAll();
 
     // 按需打包
     fsExtra
         .readdirSync(componentsDir)
         .filter(name => {
             // 获取组件的目录
-            const componentDir = path.resolve(componentsDir, name)
-            const isDir = fsExtra.lstatSync(componentDir).isDirectory()
-            return isDir && fsExtra.readdirSync(componentDir).includes("index.ts")
+            const componentDir = path.resolve(componentsDir, name);
+            const isDir = fsExtra.lstatSync(componentDir).isDirectory();
+            return isDir && fsExtra.readdirSync(componentDir).includes("index.ts");
         })
         .forEach(async name => {
-            await buildSingle(name)
-        })
+            await buildSingle(name);
+        });
 
-    copyFiles()
-}
+    copyFiles();
+};
 
-buildLib()
+buildLib();

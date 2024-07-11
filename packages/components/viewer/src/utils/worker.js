@@ -1,6 +1,9 @@
-importScripts('./tiff/UTIF.js')
-importScripts('./bmp/BMP.js')
-importScripts('./img/IMG.js')
+// importScripts('./tiff/UTIF.js')
+// importScripts('./bmp/BMP.js')
+// importScripts('./img/IMG.js')
+import UTIF from 'utif'
+import BMP from './bmp/BMP.js'
+import IMG from './img/IMG.js'
 // 缓存
 const temp = {}
 

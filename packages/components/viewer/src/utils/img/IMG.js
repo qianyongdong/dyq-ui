@@ -32,3 +32,4 @@ async function decode(arrayBuffer) {
 }
 
 var IMG = { decode, toRGBA8, decodeImage };
+export default IMG;

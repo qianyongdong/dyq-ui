@@ -1,5 +1,5 @@
 import { shallowRef } from 'vue-demi';
-import type { ComponentPublicInstance } from 'vue';
+import type { ComponentPublicInstance } from 'vue-demi';
 
 export type TemplateRef = {
   (target: Element | ComponentPublicInstance | null): void;

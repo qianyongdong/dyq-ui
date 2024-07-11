@@ -1,6 +1,6 @@
 {
   "name": "dyq-ui",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "workspaces": [
     "packages/*",
     "play",
@@ -25,6 +25,7 @@
     "md5": "^2.3.0",
     "pdfjs-dist": "^4.3.136",
     "sortablejs": "^1.15.2",
+    "utif": "^3.1.0",
     "vue-demi": "latest"
   },
   "peerDependenciesMeta": {
@@ -39,6 +40,8 @@
     "@types/sortablejs": "^1.15.8",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitejs/plugin-vue-jsx": "^4.0.0",
+    "@vitejs/plugin-vue2": "^2.3.1",
+    "@vitejs/plugin-vue2-jsx": "^1.1.1",
     "fs-extra": "^11.2.0",
     "sass": "^1.77.4",
     "typescript": "^5.2.2",

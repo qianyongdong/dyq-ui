@@ -1,4 +1,4 @@
-import type { Ref } from 'vue';
+import type { Ref } from 'vue-demi';
 export { type Options, type SortableEvent } from 'sortablejs';
 
 export type RefOrValue<T> = T | Ref<T>;
