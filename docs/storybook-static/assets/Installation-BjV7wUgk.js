@@ -1,4 +1,4 @@
-import{j as e,M as s,d as i}from"./index-BFg4kp-J.js";import{u as p}from"./index-8ZzdBU6E.js";import"./iframe-DDbmkL37.js";import"../sb-preview/runtime.js";import"./_commonjsHelpers-Cpj98o6Y.js";import"./index-D-8MO0q_.js";import"./index-Dv1YWgiV.js";import"./index-DrFu-skq.js";function r(n){const t={h1:"h1",h2:"h2",h3:"h3",p:"p",...p(),...n.components};return e.jsxs(e.Fragment,{children:[e.jsx(s,{title:"快速开始/安装"}),`
+import{j as e,M as s,d as i}from"./index-BN7y1hw_.js";import{u as p}from"./index-DWR3Ph80.js";import"./iframe-BvJ9nJlQ.js";import"../sb-preview/runtime.js";import"./_commonjsHelpers-Cpj98o6Y.js";import"./index-D-8MO0q_.js";import"./index-Dv1YWgiV.js";import"./index-DrFu-skq.js";function n(r){const t={h1:"h1",h2:"h2",h3:"h3",p:"p",...p(),...r.components};return e.jsxs(e.Fragment,{children:[e.jsx(s,{title:"快速开始/安装"}),`
 `,e.jsx(t.h1,{id:"开始使用-dyq-ui",children:"开始使用 dyq-ui"}),`
 `,e.jsx(t.p,{children:"让我们从 dyq-ui 开始吧。"}),`
 `,e.jsx(t.h2,{id:"安装",children:"安装"}),`
@@ -15,7 +15,7 @@ import{j as e,M as s,d as i}from"./index-BFg4kp-J.js";import{u as p}from"./index
 `,e.jsx(i,{type:"dynamic",language:"typescript",code:`
 import { createApp } from 'vue'
 import DUi from 'dyq-ui'
-import 'dyq-ui/dist/index.css'
+import 'dyq-ui/index.css';
 import App from './App.vue'
 
 const app = createApp(App)
@@ -27,7 +27,7 @@ app.mount('#app')
 `,e.jsx(i,{type:"dynamic",language:"typescript",code:`
 import Vue from 'vue';
 import DUi from 'dyq-ui';
-import 'dyq-ui/lib/theme-chalk/index.css';
+import 'dyq-ui/index.css';
 import App from './App.vue';
 
 Vue.use(DUi);
@@ -47,7 +47,7 @@ new Vue({
 <script setup>
   import {ref} from 'vue'
   import { DList } from 'dyq-ui'
-  import "dyq-ui/components/list/style"
+  import "dyq-ui/list/style.css"
   const list = ref(Array.from({ length: 9 }, (_, i) => i + 1))
 <\/script>
 `,dark:!0}),`
@@ -58,7 +58,7 @@ new Vue({
 </template>
 <script>
   import { DList } from 'dyq-ui'
-  import "dyq-ui/components/list/style"
+  import "dyq-ui/list/style.css"
   export default {
     components: { DList },
     data:{
@@ -70,4 +70,4 @@ new Vue({
 <\/script>
 `,dark:!0}),`
 `,e.jsx(t.h2,{id:"开始使用",children:"开始使用"}),`
-`,e.jsx(t.p,{children:"至此，一个基于 Vue 和 Dyq-ui 的开发环境已经搭建完毕，现在就可以编写代码了。各个组件的使用方法请参阅它们各自的文档。"})]})}function h(n={}){const{wrapper:t}={...p(),...n.components};return t?e.jsx(t,{...n,children:e.jsx(r,{...n})}):r(n)}export{h as default};
+`,e.jsx(t.p,{children:"至此，一个基于 Vue 和 Dyq-ui 的开发环境已经搭建完毕，现在就可以编写代码了。各个组件的使用方法请参阅它们各自的文档。"})]})}function h(r={}){const{wrapper:t}={...p(),...r.components};return t?e.jsx(t,{...r,children:e.jsx(n,{...r})}):n(r)}export{h as default};
