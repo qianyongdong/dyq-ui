@@ -108,7 +108,6 @@ function render({ canvasContext, viewport }: any) {
         offscreenWorkerArray[pageIndex] = offscreenWorker;
 
         offscreenWorker.onmessage = ({ data }: { data: any }) => {
-          console.log('offscreenWorker.onmessage', data);
           if (data) {
             if (data instanceof ImageBitmap) {
               page.bitmap = data;
@@ -189,7 +188,6 @@ worker.onmessage = (e: any) => {
     _errorMessage: string;
     _props: any;
   } = e.data;
-  console.log(_eventName, _errorMessage, _props);
   const { uid, pageIndex } = _props;
   const capability = capabilityObj[_eventName](uid, pageIndex);
   if (_errorMessage) capability?.reject(_errorMessage);

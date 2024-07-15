@@ -4,8 +4,7 @@ const fsExtra = require("fs-extra");
 const { defineConfig, build } = require("vite");
 const vue = require("@vitejs/plugin-vue");
 const vueJSX = require("@vitejs/plugin-vue-jsx");
-const version = require("../package.json").version;
-
+const { version, name } = require("../package.json");
 // 基础配置
 const baseConfig = defineConfig({
     publicDir: false,
@@ -36,9 +35,9 @@ const rollupOptions = defineConfig({
 // 组件库全局入口
 const componentsDir = path.resolve(__dirname, "../packages/components");
 // 输出目录
-const outputDir = path.resolve(__dirname, "../build");
+const outputDir = path.resolve(__dirname, `../${name}`);
 // 生成 package.json
-const createPackageJson = name => {
+const createPackageJson = (name) => {
     const fileStr = `{
     "name": "${name ? name : "dyq-ui"}",
     "version": "${version}",
@@ -77,7 +76,7 @@ const createPackageJson = name => {
 };
 
 /** 单组件按需构建 */
-const buildSingle = async name => {
+const buildSingle = async (name) => {
     await build(
         defineConfig({
             ...baseConfig,
@@ -88,8 +87,18 @@ const buildSingle = async name => {
                     fileName: "index",
                     formats: ["es", "umd"]
                 },
-                rollupOptions,
-                outDir: path.resolve(outputDir, name)
+                rollupOptions: {
+                    ...rollupOptions,
+                    input: {
+                        style: path.resolve(componentsDir, name, 'style/index.ts')
+                    },
+                    output: {
+                        name: 'index',
+                    }
+                },
+                outDir: path.resolve(outputDir, name),
+                emptyOutDir: true,
+                cssCodeSplit: true,
             }
         })
     );
@@ -127,10 +136,10 @@ const copyFiles = () => {
         path.resolve(__dirname, "../packages/theme-chalk/src/index.css")
     );
     markdown.pipe(
-        fs.createWriteStream(path.resolve(__dirname, "../build/README.md"))
+        fs.createWriteStream(path.resolve(outputDir, "./README.md"))
     );
     style.pipe(
-        fs.createWriteStream(path.resolve(__dirname, "../build/index.css"))
+        fs.createWriteStream(path.resolve(outputDir, "./index.css"))
     );
 };
 

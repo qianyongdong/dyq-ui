@@ -6,11 +6,6 @@
     "types": ["node"],
     "skipLibCheck": true
   },
-  "include": [
-    "scripts/**/*",
-    "packages/theme-chalk/*",
-    "packages/*/*",
-    "scripts/rollup.js"
-  ],
+  "include": ["scripts/**/*", "packages/theme-chalk/*", "packages/*/*"],
   "exclude": ["**/__tests__/**", "**/tests/**", "**/dist"]
 }

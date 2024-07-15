@@ -1,0 +1,28 @@
+{
+    "name": "list",
+    "version": "0.0.96",
+    "description": "兼容vue2和vue3的通用组件库",
+    "main": "index.umd.js",
+    "module": "index.mjs",
+    "types": "index.d.ts",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/qianyongdong/dyq-ui.git"
+    },
+    "keywords": ["vue", "组件库", "UI"],
+    "author": "qianyongdong",
+    "license": "ISC",
+    "dependencies": {
+    "vue-demi": "latest"
+    },
+    "peerDependencies": {
+        "@vue/composition-api": "latest",
+        "vue": "^2.0.0 || >=3.0.0"
+    },
+    "peerDependenciesMeta": {
+        "@vue/composition-api": {
+            "optional": true
+            }
+    }
+  }
+  

@@ -8,10 +8,9 @@
     "packages",
     "typings/components.d.ts",
     "typings/env.d.ts",
-
     // playground
-    "play/main.ts",
-    "play/env.d.ts",
-    "play/src/**/*"
+    "play/vue3/src/**/*",
+    "play/vue2.7/src/**/*",
+    "play/vue2/src/**/*"
   ]
 }

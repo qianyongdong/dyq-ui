@@ -10,3 +10,4 @@ export * from './download';
 export * from './device';
 export * from './helper';
 export * from './eventEmitter';
+export * from './h-demi';

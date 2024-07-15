@@ -3,7 +3,6 @@ onmessage = (event) => {
         const { canvas, page, viewport } = event.data;
         const ctx = canvas.getContext("2d");
         // draw to the offscreen canvas context
-        console.log(canvas, page, viewport)
 
         const { buffer, naturalWidth, naturalHeight } = page
         let bitmap = page.bitmap

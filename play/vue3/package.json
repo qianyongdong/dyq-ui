@@ -1,0 +1,20 @@
+{
+  "name": "vue3-playground",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx vue-demi-switch 3 & vite",
+    "build": "vue-tsc && vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "md5": "^2.3.0",
+    "pdfjs-dist": "^4.4.168",
+    "vue": "^3.4.21"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "vite": "^5.2.0"
+  }
+}

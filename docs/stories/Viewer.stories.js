@@ -23,7 +23,17 @@ export default {
           },
         }
       }
-    }
+    },
+    zoomIn: { type: "function", description: '放大，接收参数 level：number,默认为0.3' },
+    zoomOut: { type: "function", description: '缩小，接收参数 level：number,默认为0.3' },
+    rotateLeft: { type: "function", description: '左旋转，接收参数 deg：number,默认为90' },
+    rotateRight: { type: "function", description: '右旋转，接收参数 deg：number,默认为90' },
+    flipX: { type: "function", description: '水平翻转，接收参数 isFlipX：boolean,默认为切换' },
+    flipY: { type: "function", description: '垂直翻转，接收参数 isFlipY：boolean,默认为切换' },
+    createMagnifyArea: {
+      type: "function", description: '创建矩形引导，接收参数 origin: [number, number] = [0, 0]， size: [number, number] = [10, 10]， pageNum = 1；备注：只允许存在一个，创建前请先removeMagnifyArea'
+    },
+    removeMagnifyArea: { type: "function", description: '移除矩形引导' },
   },
   args: {
     transform: {

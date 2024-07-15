@@ -36,7 +36,7 @@ language="typescript"
 code={`
 import { createApp } from 'vue'
 import DUi from 'dyq-ui'
-import 'dyq-ui/dist/index.css'
+import 'dyq-ui/index.css';
 import App from './App.vue'
 
 const app = createApp(App)
@@ -52,7 +52,7 @@ language="typescript"
 code={`
 import Vue from 'vue';
 import DUi from 'dyq-ui';
-import 'dyq-ui/lib/theme-chalk/index.css';
+import 'dyq-ui/index.css';
 import App from './App.vue';
 
 Vue.use(DUi);
@@ -77,7 +77,7 @@ code={`
 <script setup>
   import {ref} from 'vue'
   import { DList } from 'dyq-ui'
-  import "dyq-ui/components/list/style"
+  import "dyq-ui/list/style.css"
   const list = ref(Array.from({ length: 9 }, (_, i) => i + 1))
 </script>
 `} dark />
@@ -92,7 +92,7 @@ code={`
 </template>
 <script>
   import { DList } from 'dyq-ui'
-  import "dyq-ui/components/list/style"
+  import "dyq-ui/list/style.css"
   export default {
     components: { DList },
     data:{
