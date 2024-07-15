@@ -1,5 +1,7 @@
-import { DList } from '../../packages/components';
-import "../../packages/components/list/style"
+// import { DList } from '../../packages/components';
+// import "../../packages/components/list/style"
+import { DList } from 'dyq-ui';
+import "dyq-ui/list/style.css"
 import "./list.css"
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const modelValue = Array.from({ length: 9 }, (_, i) => i + 1)

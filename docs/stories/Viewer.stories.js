@@ -1,5 +1,7 @@
-import { DViewer } from '../../packages/components';
-import "../../packages/components/viewer/style"
+// import { DViewer } from '../../packages/components';
+// import "../../packages/components/viewer/style"
+import { DViewer } from 'dyq-ui';
+import "dyq-ui/viewer/style.css"
 import "./viewer.css"
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 export default {

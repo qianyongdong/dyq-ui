@@ -2,8 +2,7 @@
   "name": "dyq-ui",
   "version": "0.0.96",
   "workspaces": [
-    "packages/*",
-    "docs"
+    "packages/*"
   ],
   "scripts": {
     "dev": "pnpm -C play/vue3 dev",
