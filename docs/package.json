@@ -25,7 +25,8 @@
     "@storybook/vue3-vite": "^8.1.5",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitejs/plugin-vue-jsx": "^4.0.0",
-    "storybook": "^8.1.10"
+    "storybook": "^8.1.10",
+    "vite": "^5.2.0"
   },
   "dependencies": {
     "dyq-ui": "^0.0.96"
