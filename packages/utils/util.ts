@@ -13,15 +13,12 @@ export function camelize(str: string) {
  * @returns {Record<string, any>}
  */
 export function objectMap(object: Record<any, any>) {
-  return Object.keys(object).reduce(
-    (result, key) => {
-      if (typeof object[key] !== 'undefined') {
-        result[camelize(key)] = object[key];
-      }
-      return result;
-    },
-    {} as Record<string, any>
-  );
+  return Object.keys(object).reduce((result, key) => {
+    if (typeof object[key] !== 'undefined') {
+      result[camelize(key)] = object[key];
+    }
+    return result;
+  }, {} as Record<string, any>);
 }
 
 export function uuid() {
@@ -41,10 +38,10 @@ export function getView(
   // 计算缩放比例
   // const widthRatio = containerWidth / imageWidth / (96 / 72);
   // const heightRatio = containerHeight / imageHeight / (96 / 72);
-  const widthRatio = containerWidth / imageWidth / (96 / 72);
-  // const heightRatio = containerHeight / imageHeight / (96 / 72);
-  // const scale = Math.min(widthRatio, heightRatio);
-  const scale = widthRatio;
+  const widthRatio = containerWidth / imageWidth;
+  const heightRatio = containerHeight / imageHeight;
+  const scale = Math.min(widthRatio, heightRatio);
+  // const scale = widthRatio;
   // 计算缩放后的图片尺寸并取整
   let scaledWidth = Math.floor(imageWidth * scale);
   let scaledHeight = Math.floor(imageHeight * scale);
@@ -75,11 +72,23 @@ export function getView(
  */
 export function calculateMaxChildren(
   childWidth: string,
-  parentWidth: number
+  parentWidth: number,
+  gap: string
 ): number {
+  const childWidthInPixels = calculatePixels(childWidth, parentWidth);
+  const gapInPixels = calculatePixels(gap, parentWidth);
+
+  // 每个子元素占用的总宽度 = 子元素的宽度 + gap
+  const totalChildWidthWithGap = childWidthInPixels + gapInPixels;
+
+  // 计算父元素最多可容纳的子元素个数（减去最后一个子元素后没有 gap）
+  return Math.floor((parentWidth + gapInPixels) / totalChildWidthWithGap);
+}
+
+export function calculatePixels(e: string, parentWidth: number) {
   // 将子元素宽度的单位转换为像素
   const regex = /(\d+)(px|em|%)/;
-  const match = childWidth.match(regex);
+  const match = e.match(regex);
 
   if (!match) {
     throw new Error('子元素宽度格式无效');
@@ -87,7 +96,6 @@ export function calculateMaxChildren(
 
   let value = parseFloat(match[1]);
   let unit = match[2];
-
   let childWidthInPixels;
 
   switch (unit) {
@@ -105,7 +113,20 @@ export function calculateMaxChildren(
     default:
       throw new Error('不支持的单位类型');
   }
+  return childWidthInPixels;
+}
 
-  // 计算父元素最多可容纳的子元素个数
-  return Math.floor(parentWidth / childWidthInPixels);
+export function getAutoSizeScale(
+  imageWidth: number,
+  imageHeight: number,
+  containerWidth: number,
+  containerHeight: number
+) {
+  const view = getView(
+    imageWidth,
+    imageHeight,
+    containerWidth,
+    containerHeight
+  );
+  return view[2] / imageWidth;
 }

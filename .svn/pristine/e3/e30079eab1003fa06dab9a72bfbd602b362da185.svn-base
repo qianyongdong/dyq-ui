@@ -1,0 +1,12 @@
+{
+  "name": "@dyq-ui/theme-chalk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "sass ./src/index.scss ./src/index.css --no-source-map"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

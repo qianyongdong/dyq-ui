@@ -4,12 +4,15 @@ import MD5 from 'md5';
 import mainWorker from './worker?worker&inline';
 // @ts-ignore
 import offscreenCanvasWorker from './offscreenCanvas.worker?worker&inline';
-import { FileTypeName } from '../index';
+import type { FileTypeName } from '../index';
+import { _getTextContent, type CreateWorkerArgsType } from './tesseract';
+
 // const worker = new Worker(new URL('./worker.js?worker', import.meta.url), {
 //   type: 'module',
 // });
 const worker = new mainWorker({ type: 'module' });
 const temp: any = {};
+const OCROptions: { value: CreateWorkerArgsType } = { value: [] };
 async function getPage(pageNum: number) {
   // @ts-ignore
   const that = this;
@@ -51,18 +54,22 @@ function getViewport({ scale }: { scale: number }) {
     throw new Error(`${that.pageIndex + 1}页没有先执行getPage方法`);
   }
   const { naturalWidth, naturalHeight } = page;
-  const view = [0, 0, naturalWidth, naturalHeight];
-  that.view = view;
   return {
-    width: Math.round(view[2] * scale),
-    height: Math.round(view[3] * scale),
+    width: Math.round(naturalWidth * scale),
+    height: Math.round(naturalHeight * scale),
     scale,
-    viewBox: view,
+    rawDims: {
+      pageHeight: naturalHeight,
+      pageWidth: naturalWidth,
+      pageX: 0,
+      pageY: 0,
+    },
   };
 }
 function _render({ canvasContext, viewport, page }: any) {
   const { naturalWidth, naturalHeight, bitmap } = page;
   const { width, height } = viewport;
+
   canvasContext.drawImage(
     bitmap,
     0,
@@ -75,6 +82,7 @@ function _render({ canvasContext, viewport, page }: any) {
     height
   );
 }
+
 function render({ canvasContext, viewport }: any) {
   // @ts-ignore
   const that = this;
@@ -84,10 +92,8 @@ function render({ canvasContext, viewport }: any) {
   const page = pages[pageIndex];
   if (!offscreenArray[pageIndex]) {
     // offscreenArray[pageIndex] = canvasContext.transferControlToOffscreen();
-    const offscreenCanvas = new OffscreenCanvas(
-      viewport.width,
-      viewport.height
-    );
+    const { naturalWidth, naturalHeight } = page;
+    const offscreenCanvas = new OffscreenCanvas(naturalWidth, naturalHeight);
     offscreenArray[pageIndex] = offscreenCanvas;
   }
 
@@ -132,6 +138,36 @@ function render({ canvasContext, viewport }: any) {
   };
 }
 
+// function serializeBitmap() {
+//   // @ts-ignore
+//   const that = this;
+//   const { pageIndex, uid } = that;
+//   const tem = temp[uid];
+//   const { pages } = tem;
+//   const page = pages[pageIndex];
+//   const { naturalWidth, naturalHeight, bitmap } = page;
+//   const canvas = document.createElement('canvas');
+//   canvas.width = naturalWidth;
+//   canvas.height = naturalHeight;
+//   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+//   ctx.drawImage(bitmap, 0, 0);
+//   return canvas.toDataURL();
+// }
+function getTextContent() {
+  // @ts-ignore
+  const that = this;
+  const { pageIndex, uid } = that;
+  const tem = temp[uid];
+  const { pages } = tem;
+  const page = pages[pageIndex];
+  const { bitmap, naturalHeight, naturalWidth } = page;
+  const canvas = document.createElement('canvas');
+  canvas.width = naturalWidth;
+  canvas.height = naturalHeight;
+  const canvasContext = canvas.getContext('2d') as CanvasRenderingContext2D;
+  canvasContext.drawImage(bitmap, 0, 0);
+  return _getTextContent(canvas, naturalWidth, naturalHeight, OCROptions.value);
+}
 const eventsObj = {
   decode: ({ uid, numPages }: { uid: string; numPages: number }) => {
     return { uid, numPages, getPage, destroy };
@@ -159,8 +195,18 @@ const eventsObj = {
         naturalHeight,
       };
     }
+    const view = [0, 0, naturalWidth, naturalHeight];
 
-    return { uid, pageIndex, render, getViewport };
+    return {
+      uid,
+      pageIndex,
+      render,
+      getViewport,
+      view,
+      isOwn: true,
+      getTextContent,
+      //  serializeBitmap
+    };
   },
   destroy: ({ uid }: { uid: string }) => {
     delete temp[uid];
@@ -194,9 +240,14 @@ worker.onmessage = (e: any) => {
   capability?.resolve(eventsObj[_eventName](_props));
 };
 
-export default async (fileType: FileTypeName, src: ArrayBuffer) => {
+export default async (
+  fileType: FileTypeName,
+  src: ArrayBuffer,
+  _OCROptions: CreateWorkerArgsType
+) => {
   const typedArray = new Int32Array(src, 0, src.byteLength / 4);
   const uid = MD5(typedArray);
+  OCROptions.value = _OCROptions;
   if (!temp[uid]) {
     const startCapability = Promise.withResolvers();
     const processCapabilityArray: any[] = [];

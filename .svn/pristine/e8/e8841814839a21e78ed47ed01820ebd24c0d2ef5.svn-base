@@ -1,0 +1,35 @@
+@use 'pdfViewer';
+.outerContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.outerContainer .mainContainer {
+  position: absolute;
+  inset: 0;
+}
+
+.outerContainer .mainContainer .viewerContainer {
+  overflow: auto;
+  position: absolute;
+  inset: 32px 0 0;
+  outline: none;
+}
+
+.outerContainer .mainContainer .viewerContainer .pdfViewer .d-page {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.outerContainer .mainContainer .viewerContainer .pdfViewer .d-page .page {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.outerContainer .mainContainer .viewerContainer .pdfViewer .d-page .page .canvasWrapper canvas {
+  width: 100%;
+  height: 100%;
+}

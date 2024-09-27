@@ -6,6 +6,11 @@
     "types": ["node"],
     "skipLibCheck": true
   },
-  "include": ["scripts/**/*", "packages/theme-chalk/*", "packages/*/*"],
+  "include": [
+    "scripts/**/*",
+    "packages/theme-chalk/*",
+    "packages/*/*",
+    "packages/components/viewer/src/utils/tesseract.ts"
+  ],
   "exclude": ["**/__tests__/**", "**/tests/**", "**/dist"]
 }

@@ -310,6 +310,10 @@
   contain: strict;
 }
 
+.hidden {
+  display: none;
+}
+
 .d-list {
   width: 100%;
   height: 100%;
@@ -2657,8 +2661,6 @@
 :root {
   --viewer-container-height: 0;
   --pdfViewer-padding-bottom: 0;
-  --page-margin: 1px auto -8px;
-  --page-border: 9px solid transparent;
   --spreadHorizontalWrapped-margin-LR: -3.5px;
   --loading-icon-delay: 400ms;
 }
@@ -2666,8 +2668,6 @@
 @media screen and (forced-colors: active) {
   :root {
     --pdfViewer-padding-bottom: 9px;
-    --page-margin: 8px auto -1px;
-    --page-border: 1px solid CanvasText;
     --spreadHorizontalWrapped-margin-LR: 3.5px;
   }
 }
@@ -2848,12 +2848,11 @@
 .outerContainer .mainContainer {
   position: absolute;
   inset: 0;
-  min-width: 350px;
 }
 .outerContainer .mainContainer .viewerContainer {
   overflow: auto;
   position: absolute;
-  inset: 32px 0 0;
+  inset: 0;
   outline: none;
 }
 .outerContainer .mainContainer .viewerContainer .pdfViewer .d-page {
@@ -2862,11 +2861,34 @@
   position: relative;
 }
 .outerContainer .mainContainer .viewerContainer .pdfViewer .d-page .page {
-  width: 100%;
-  height: 100%;
   box-sizing: border-box;
+  border: none;
+  margin: 0 auto;
 }
 .outerContainer .mainContainer .viewerContainer .pdfViewer .d-page .page .canvasWrapper canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.thumbnail {
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.thumbnail .status-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.d-page + .d-page {
+  margin-top: 10px;
+}
+
+.status-icon {
+  position: absolute;
+  z-index: 5;
   width: 100%;
   height: 100%;
 }

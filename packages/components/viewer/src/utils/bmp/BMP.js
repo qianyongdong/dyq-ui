@@ -177,10 +177,10 @@ class BmpDecoder {
         const green = this.readUInt8();
         const red = this.readUInt8();
         const location = line * this.width * 4 + x * 4;
-        this.data[location] = 0;
-        this.data[location + 1] = blue;
-        this.data[location + 2] = green;
-        this.data[location + 3] = red;
+        this.data[location] = red;   // Red
+        this.data[location + 1] = green; // Green
+        this.data[location + 2] = blue;  // Blue
+        this.data[location + 3] = 255;   // Alpha
       }
       this.pos += this.width % 4;
     }
@@ -190,15 +190,15 @@ class BmpDecoder {
     for (let y = this.height - 1; y >= 0; y--) {
       const line = this.bottom_up ? y : this.height - 1 - y;
       for (let x = 0; x < this.width; x++) {
-        const alpha = this.readUInt8();
-        const blue = this.readUInt8();
-        const green = this.readUInt8();
-        const red = this.readUInt8();
+        const blue = this.readUInt8();   // BGR -> Blue
+        const green = this.readUInt8();  // BGR -> Green
+        const red = this.readUInt8();    // BGR -> Red
+        const alpha = this.readUInt8();  // Alpha (透明度)
         const location = line * this.width * 4 + x * 4;
-        this.data[location] = alpha;
-        this.data[location + 1] = blue;
-        this.data[location + 2] = green;
-        this.data[location + 3] = red;
+        this.data[location] = red;    // Red
+        this.data[location + 1] = green;  // Green
+        this.data[location + 2] = blue;   // Blue
+        this.data[location + 3] = alpha;  // Alpha
       }
     }
   }

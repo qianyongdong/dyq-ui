@@ -28,8 +28,5 @@
     "storybook": "^8.1.10",
     "vite": "^5.2.0",
     "vue": "^3.4.21"
-  },
-  "dependencies": {
-    "dyq-ui": "^0.0.96"
   }
 }

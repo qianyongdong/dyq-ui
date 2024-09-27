@@ -1,4 +1,4 @@
-import { join, dirname } from "path";
+import { join, dirname, resolve } from "path";
 import { mergeConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
@@ -37,6 +37,11 @@ const config = {
   async viteFinal(config, { configType }) {
     return mergeConfig(config, {
       plugins: [vue(), vueJsx()],
+      resolve: {
+        alias: {
+          'dyq-ui': `${resolve(__dirname, '../../dyq-ui')}`,
+        },
+      },
     });
   },
 };

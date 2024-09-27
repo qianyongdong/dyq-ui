@@ -4,8 +4,13 @@ dyq-ui 由一些拥有丰富而强大的特性的，预定义组件组成。这�
 
 ## 快速开始
 
-从npm安装
+从 npm 安装
 
 ```
 npm install dyq-ui
 ```
+
+## OCR
+
+需要将 tesseract 文件夹放进工程的静态资源目录下并参考 viewer 组件正确配置 props，模型文件需要自行下载。
+无需 ocr 可以删除 tesseract 文件夹

@@ -86,21 +86,24 @@ export const DList = defineComponent<ListProps>({
       set: (v) => emit('update:modelValue', v),
     });
     const style = computed(() => {
+      const gap = options.value.gap || 0;
+
       const gridTemplateColumns = [
         options.value.itemWidth
           ? calculateMaxChildren(
               options.value.itemWidth,
-              contentRect.value?.width || 400
+              contentRect.value ? contentRect.value.width : 400,
+              gap
             )
           : options.value.column || 4,
         options.value.itemWidth ? options.value.itemWidth : '1fr',
       ];
       const gridAutoRows =
-        options.value.itemHeight || options.value.row
+        options.value.itemHeight ||
+        (options.value.row
           ? (100 / options.value.row).toFixed(2) + '%'
-          : '25%';
+          : '25%');
 
-      const gap = options.value.gap || 0;
       return {
         'grid-template-columns': `repeat(${gridTemplateColumns[0]},${gridTemplateColumns[1]})`,
         'grid-auto-rows': gridAutoRows,

@@ -1,0 +1,22 @@
+html,
+body,
+#storybook-root,
+.a-100 {
+  width: 100%;
+  height: 100%;
+}
+
+.d-list {
+  min-height: 200px;
+  width: 100%;
+  height: 100%;
+  &__content {
+    > div {
+      border: 1px solid #ccc;
+    }
+    .list-item {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

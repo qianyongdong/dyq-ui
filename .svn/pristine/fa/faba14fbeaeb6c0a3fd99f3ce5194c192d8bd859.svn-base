@@ -1,0 +1,18 @@
+import { Meta,Canvas  } from '@storybook/blocks';
+import * as ListStories from './List.stories';
+import * as ViewerStories from './Viewer.stories';
+
+<Meta title="组件/全部组件" />
+
+# 组件
+dyq-ui 组件是用于创建用户界面的交互式模块。
+
+## 容器组件 (Containment)
+
+列表(List)
+<Canvas of={ListStories.Slots_default} />
+
+## 数据展示组件 (Data & Display)
+
+文件查看器(Viewer)
+<Canvas of={ViewerStories.Default} />

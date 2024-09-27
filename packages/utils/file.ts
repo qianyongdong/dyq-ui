@@ -13,12 +13,25 @@ const getFileTypeAndArrayBufferFromUrl = async (url: string) => {
   }
 };
 
-const base64ToArrayBuffer = (base64String: string) => {
+const isValidBase64 = (str: string): boolean => {
+  const base64Regex = /^[A-Za-z0-9+/]+={0,2}$/;
+  return base64Regex.test(str);
+};
+
+const base64ToArrayBuffer = (base64String: string): ArrayBuffer => {
+  if (!isValidBase64(base64String)) {
+    console.log(base64String);
+
+    throw new Error('Invalid Base64 string');
+  }
   const binaryString = atob(base64String);
-  const bytes = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i++) {
+  const len = binaryString.length;
+  const bytes = new Uint8Array(len);
+
+  for (let i = 0; i < len; i++) {
     bytes[i] = binaryString.charCodeAt(i);
   }
+
   return bytes.buffer;
 };
 
@@ -30,7 +43,8 @@ const getFileTypeAndArrayBufferFromBase64 = (base64String: string) => {
       return null;
     }
     const mimeType = match[1];
-    const arrayBuffer = base64ToArrayBuffer(base64String);
+    const base64Data = match[2];
+    const arrayBuffer = base64ToArrayBuffer(base64Data);
     return { arrayBuffer, mimeType };
   } catch (error) {
     console.error('Error Processing Base64:', error);

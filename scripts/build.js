@@ -4,11 +4,53 @@ const fsExtra = require("fs-extra");
 const { defineConfig, build } = require("vite");
 const vue = require("@vitejs/plugin-vue");
 const vueJSX = require("@vitejs/plugin-vue-jsx");
+// const { viteStaticCopy } = require('vite-plugin-static-copy');
 const { version, name } = require("../package.json");
 // 基础配置
-const baseConfig = defineConfig({
+
+// const getBaseConfigProxy = () => {
+//     let baseConfig = null;
+//     return async () => {
+//         if (!baseConfig) {
+//             const { viteStaticCopy } = await import('vite-plugin-static-copy');
+//             baseConfig = defineConfig({
+//                 publicDir: false,
+//                 plugins: [vue(), vueJSX(),
+//                 viteStaticCopy({
+//                     targets: [
+//                         {
+//                             src: path.resolve(__dirname, "../packages/lang-data/*"), // 源路径
+//                             dest: 'lang-data', // 输出路径
+//                         },
+//                     ],
+//                 }),
+//                 ],
+//                 optimizeDeps: {
+//                     exclude: ['vue-demi'],
+//                 },
+//                 build: {
+//                     rollupOptions: {
+//                         external: ['vue', 'vue-demi'],
+//                         output: {
+//                             globals: {
+//                                 vue: 'Vue',
+//                                 'vue-demi': 'VueDemi',
+//                             },
+//                         },
+//                     },
+//                 },
+//             });
+//         }
+//         return baseConfig
+//     }
+// }
+
+// const getBaseConfig = getBaseConfigProxy()
+
+baseConfig = defineConfig({
     publicDir: false,
-    plugins: [vue(), vueJSX()],
+    plugins: [vue(), vueJSX(),
+    ],
     optimizeDeps: {
         exclude: ['vue-demi'],
     },
@@ -24,6 +66,7 @@ const baseConfig = defineConfig({
         },
     },
 });
+
 const rollupOptions = defineConfig({
     // that shouldn't be bundled
     external: ["vue", 'vue-demi'],
@@ -77,6 +120,7 @@ const createPackageJson = (name) => {
 
 /** 单组件按需构建 */
 const buildSingle = async (name) => {
+    // const baseConfig = await getBaseConfig()
     await build(
         defineConfig({
             ...baseConfig,
@@ -108,9 +152,11 @@ const buildSingle = async (name) => {
 
 /** 全量构建 */
 const buildAll = async () => {
+    // const baseConfig = await getBaseConfig()
     await build(
         defineConfig({
             ...baseConfig,
+            publicDir: path.resolve(__dirname, "../packages/public"),
             build: {
                 lib: {
                     entry: componentsDir,
@@ -119,7 +165,7 @@ const buildAll = async () => {
                     formats: ["es", "umd"]
                 },
                 rollupOptions,
-                outDir: outputDir
+                outDir: outputDir,
             }
         })
     );

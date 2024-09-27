@@ -43,7 +43,7 @@ export default {
       rotate: 0,
       xFlip: false,
       yFlip: false,
-    }
+    },
   }
 };
 

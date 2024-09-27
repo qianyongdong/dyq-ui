@@ -1,103 +1,176 @@
-<script lang='ts' setup>
+<script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import type { Ref } from 'vue';
-import { SortableEvent } from "sortablejs";
+import { SortableEvent } from 'sortablejs';
 import type { MimeType } from '@dyq-ui/components';
 import { setAuth } from '@dyq-ui/utils';
 import { vSlideIn } from '@dyq-ui/directives';
-// import { DViewer, DList } from '../../../packages/components';
+import { DViewer, DList } from '../../../packages/components';
+import { getPictures } from '../../../packages/components/viewer';
 import imgUrl from './assets/1.jpg';
 import bmpUrl from './assets/1.bmp';
 import pdfUrl from './assets/1.pdf';
 import tifUrl from './assets/1.tif?url';
+import testUrl from './assets/Color200.bmp';
+import { base64File } from './assets/11';
+import pngUrl from './assets/image.png';
 
 const onRendered = (e) => {
-    console.log('onRendered', e);
-}
+  console.log('onRendered', e);
+};
 const onError = (e) => {
-    console.log('onError', e);
-}
-const viewerRef = ref(null)
-const list = ref(Array.from({ length: 36 }, (_, i) => i + 1))
+  console.log('onError', e);
+};
+const viewerRef: Ref<any> = ref(null);
+const list = ref(Array.from({ length: 36 }, (_, i) => i + 1));
 
 const insertAtIndex = (start: number, newElement: any, isReplace = false) => {
-    const end = isReplace ? (Array.isArray(newElement) ? newElement.length : 1) + start : start
-    list.value = [...list.value.slice(0, start), ...Array.isArray(newElement) ? newElement : [newElement], ...list.value.slice(end)];
-}
+  const end = isReplace
+    ? (Array.isArray(newElement) ? newElement.length : 1) + start
+    : start;
+  list.value = [
+    ...list.value.slice(0, start),
+    ...(Array.isArray(newElement) ? newElement : [newElement]),
+    ...list.value.slice(end),
+  ];
+};
 
 const onChange = (event: SortableEvent) => {
-    if (!event) return
-    // 移动的元素
-    const movedElement = list.value[event.oldIndex as number]
-    // 被替换位置的元素
-    const replacedElement = list.value[event.newIndex as number]
+  if (!event) return;
+  // 移动的元素
+  const movedElement = list.value[event.oldIndex as number];
+  // 被替换位置的元素
+  const replacedElement = list.value[event.newIndex as number];
 
-    console.log("原始位置：", event.oldIndex, '当前位置：', event.newIndex, '移动元素:', movedElement, '被替换元素：', replacedElement)
-}
+  console.log(
+    '原始位置：',
+    event.oldIndex,
+    '当前位置：',
+    event.newIndex,
+    '移动元素:',
+    movedElement,
+    '被替换元素：',
+    replacedElement
+  );
+};
+
+const print = async () => {
+  // const res = await viewerRef.value.loadedPromise();
+  if (!viewerRef.value) return;
+  // const res = await viewerRef.value.getPictures();
+  const res = await getPictures(testUrl);
+  console.log(res);
+};
+const createMagnifyArea = () => {
+  viewerRef.value?.createMagnifyArea([500, 10], [60, 100], 1);
+};
+const removeMagnifyArea = () => {
+  viewerRef.value?.removeMagnifyArea();
+};
+const fileUrls = [imgUrl, bmpUrl, pdfUrl, tifUrl, testUrl];
+const urls = ref([...fileUrls, ...fileUrls, ...fileUrls]);
+const OCRProps: any = {
+  enabledOCR: true,
+  OCROptions: [
+    ['eng', 'chi_sim', 'chi_tra'],
+    1,
+    {
+      workerPath: '/tesseract/worker.min.js',
+      corePath: '/tesseract/tesseract.js-core',
+      langPath: '/tesseract/lang-data',
+    },
+  ],
+};
+const dynamicUrl = ref('');
+setTimeout(() => {
+  dynamicUrl.value = bmpUrl;
+}, 5000);
 </script>
 
 <template>
-    <div class="app">
-        <!-- component test -->
-        <section class="list viewer-list">
-            <d-viewer :src="pdfUrl" @rendered="onRendered" @error="onError"></d-viewer>
-            <d-viewer :src="tifUrl" @rendered="onRendered" @error="onError"></d-viewer>
-            <d-viewer :src="bmpUrl" @rendered="onRendered" @error="onError"></d-viewer>
-            <d-viewer :src="imgUrl" @rendered="onRendered" @error="onError"></d-viewer>
-        </section>
-
-        <!-- <d-authority permission="edit">111</d-authority>
-        <d-authority :permission="['edit']">2222</d-authority> -->
-        <!-- <canvas ref="canvas"></canvas> -->
-        <!-- directives test -->
-        <!-- <ul>
-            <li v-slide-in v-for="i in 10" :key="i" class="page">i</li>
-        </ul> -->
-        <div class="list">
-            <button @click="insertAtIndex(list.length, [999, 1000, 1111])">增加3个</button>
-            <button @click="insertAtIndex(1, '1-1')">在第一个后面增加1个</button>
-            <button @click="insertAtIndex(0, '替换了', true)">替换第一个</button>
-            <d-list :row="3" :column="4" gap="10px" drag v-model="list" @change="onChange">
-                <template #default="{ item, index }">
-                    <div class="list-item">
-                        index:{{ index }}, item:{{ item }}
-                    </div>
-                </template>
-            </d-list>
+  <div class="app">
+    <button @click="viewerRef.rotateLeft()">左转</button>
+    <button @click="createMagnifyArea">第一页放大区域</button>
+    <button @click="removeMagnifyArea">清除放大区域</button>
+    <!-- <d-list
+      class="list"
+      item-width="100px"
+      item-height="200px"
+      gap="8px"
+      drag
+      v-model="urls"
+      @change="onChange"
+    >
+      <template #default="{ item, index }">
+        <div class="list-item">
+          <d-viewer
+            :src="item"
+            @rendered="onRendered"
+            @error="onError"
+            onlyFirstPage
+          ></d-viewer>
         </div>
-
-    </div>
+      </template>
+    </d-list> -->
+    <d-viewer
+      ref="viewerRef"
+      :src="pdfUrl"
+      @rendered="onRendered"
+      @error="onError"
+      v-bind="OCRProps"
+    ></d-viewer>
+    <!-- <d-viewer
+      :src="dynamicUrl"
+      @rendered="onRendered"
+      @error="onError"
+      v-bind="OCRProps"
+    ></d-viewer> -->
+  </div>
 </template>
 
-<style lang='scss'>
+<style lang="scss">
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }
+#app {
+  width: 100%;
+  height: 100%;
+}
+// .app {
+//   width: 300px;
+//   height: 600px;
+//   overflow: hidden;
+//   .list {
+//     width: 100%;
+//     height: 100%;
+//     overflow: auto;
+//   }
+//   .list-item {
+//     width: 100%;
+//     height: 100%;
+//     border: 1px solid #ccc;
+//     box-sizing: border-box;
 
+//     // overflow: hidden;
+
+//     // .outerContainer .mainContainer .viewerContainer {
+//     //     inset: 0 !important;
+//     //     overflow: hidden;
+//     // }
+
+//     // .page {
+//     //     margin: 0 !important
+//     // }
+//   }
+// }
 .app {
-    width: 100vw;
-    height: 100vh;
-
-    .list {
-        width: 100vw;
-        height: 50vh;
-        overflow: hidden;
-    }
-
-    .viewer-list {
-        display: flex;
-
-        >div {
-            width: 25%;
-        }
-    }
-
-    .list-item {
-        width: 100%;
-        height: 100%;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-    }
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 </style>

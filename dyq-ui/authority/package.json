@@ -1,6 +1,6 @@
 {
     "name": "authority",
-    "version": "0.0.96",
+    "version": "0.1.5",
     "description": "兼容vue2和vue3的通用组件库",
     "main": "index.umd.js",
     "module": "index.mjs",
