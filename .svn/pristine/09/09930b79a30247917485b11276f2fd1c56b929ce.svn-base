@@ -62,8 +62,10 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
       acc[event] = (...args: any) => emit(key, ...args);
       return acc;
     }, {} as any);
-    // 0 未渲染 1 渲染中 2渲染结束 3 渲染出错
+    // 0 未渲染 1 渲染中 2渲染结束
     const renderState = ref(0);
+    // 渲染出错
+    const isRenderError = ref(false);
     // page 元素
     const pageRef: Ref<HTMLElement | null> = ref(null);
     // canvas 元素
@@ -80,6 +82,7 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
     const view = ref(null);
     // 当前缩放
     const currentScale = ref();
+    const autoSizeScale = ref();
 
     const getTransformScale = (deg: number) => {
       if (!currentScale.value || !view.value || (deg / 90) % 2 === 0) {
@@ -94,7 +97,10 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
         : 1;
     };
     const style = computed(() => {
-      const scale = props.transform.scale || 1;
+      const scale =
+        props.autoSize && currentScale.value
+          ? currentScale.value
+          : props.transform.scale;
       const size = view.value
         ? [
             Math.round(scale * view.value[2]) + 'px',
@@ -125,17 +131,17 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
         : transform;
     });
     // 交叉观察器
-    // const intersectionObserverCallback = debounce((entries: any[]) => {
-    // for (const entry of entries) {
-    //   entry.isIntersecting && render();
-    // }
-    // }, 500);
-    const intersectionObserverCallback = () => {};
+    const intersectionObserverCallback = debounce((entries: any[]) => {
+      for (const entry of entries) {
+        entry.isIntersecting && render();
+      }
+    }, 500);
     const { intersectionRef, isIntersecting } = useIntersectionObserver(
       intersectionObserverCallback
     );
 
-    const render = async () => {
+    const render = debounce(async () => {
+      console.log(props.transform.scale);
       const canvas = unref(canvasRef);
       const textLayerDiv = unref(textLayerRef);
       const {
@@ -148,25 +154,28 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
         enabledTextLayer,
         enabledOCR,
       } = props;
-      console.log('autoSize', autoSize, props.lazy, isIntersecting.value);
+
       if (
-        !instance ||
         renderState.value === 1 ||
+        !scale ||
         !canvas ||
         !textLayerDiv ||
-        !scale ||
-        (currentScale.value === scale && !autoSize) ||
-        (props.lazy && !isIntersecting.value)
+        !instance ||
+        currentScale.value === scale ||
+        (autoSize &&
+          currentScale.value &&
+          autoSizeScale.value === currentScale.value) ||
+        (!isIntersecting.value && props.lazy)
       ) {
         return;
       }
       try {
-        renderState.value = 1;
-        resetCanvasStyle();
         if (!page) {
+          renderState.value = 1;
           page = await instance.getPage(pageNum);
           view.value = page.view;
         }
+
         // 自适应
         const renderScale = autoSize
           ? getAutoSizeScale(
@@ -185,6 +194,8 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
           Math.round(viewport.width / devicePixelRatio) + 'px';
         canvas.style.height =
           Math.round(viewport.height / devicePixelRatio) + 'px';
+        // canvas.style.width = viewport.width + 'px';
+        // canvas.style.height = viewport.height + 'px';
         const renderContext = {
           canvasContext: canvas.getContext('2d', { colorSpace: 'srgb' }),
           viewport: viewport,
@@ -192,11 +203,19 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
         await page.render(renderContext).promise;
         renderState.value = 2;
         currentScale.value = renderScale;
-        const eventData: any = { pageNum, scale: renderScale };
+        console.log('renderScale', renderScale);
+        if (autoSize) {
+          autoSizeScale.value = renderScale;
+          if (pageNum === 1) {
+            events.onUpdateScale(renderScale);
+          }
+        }
+        const eventData: any = { pageNum };
         events.onRendered(eventData);
       } catch (e: any) {
         console.error('error', e?.message || e);
-        renderState.value = 3;
+        renderState.value = 2;
+        isRenderError.value = true;
         events.onError({
           eventName: 'render',
           message: '页面渲染失败,原因：' + e.message,
@@ -214,20 +233,32 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
           textLayer.render();
         }
       }
-    };
-
+    }, 500);
     const resetCanvasStyle = () => {
       const canvas = canvasRef.value;
       if (!canvas) return;
       canvas.style.width = '100%';
       canvas.style.height = '100%';
     };
+
     onMounted(() => {
-      intersectionRef.value = pageRef.value as HTMLElement;
-      watchEffect(() => {
-        console.log(props.lazy);
+      watch(
+        () => props.transform.scale,
+        () => {
+          resetCanvasStyle();
+          render();
+        },
+        {
+          immediate: true,
+        }
+      );
+    });
+    watchEffect(() => {
+      if (props.lazy) {
+        intersectionRef.value = pageRef.value as HTMLElement;
+      } else {
         render();
-      });
+      }
     });
 
     const serializeBitmap = async () => {
@@ -251,9 +282,9 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
       annotationLayerRef,
       canvasRef,
       renderState,
+      isRenderError,
       view,
       serializeBitmap,
-      currentScale,
     });
     return () =>
       h(
@@ -261,7 +292,9 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
         {
           class: 'd-page',
           ref: pageRef,
-          style: '--scale-factor:' + props.transform.scale,
+          style:
+            '--scale-factor:' +
+            (props.autoSize ? currentScale.value : props.transform.scale),
         },
         [
           h(
@@ -279,10 +312,10 @@ export const DViewerPage = defineComponent<ViewerPageProps>({
             {
               class: 'status-icon',
               style: {
-                display: renderState.value > 2 ? '' : 'none',
+                display: isRenderError.value ? '' : 'none',
               },
             },
-            slots?.error?.('页面加载错误')
+            slots?.error?.()
           ),
           h('div', { class: 'page', style: unref(style) }, [
             h('div', { class: 'canvasWrapper' }, [

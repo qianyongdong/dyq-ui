@@ -13,7 +13,7 @@ import pdfUrl from './assets/1.pdf';
 import tifUrl from './assets/1.tif?url';
 import testUrl from './assets/Color200.bmp';
 import { base64File } from './assets/11';
-import pngUrl from './assets/test.png';
+import pngUrl from './assets/image.png';
 
 const onRendered = (e) => {
   console.log('onRendered', e);
@@ -58,11 +58,11 @@ const print = async () => {
   // const res = await viewerRef.value.loadedPromise();
   if (!viewerRef.value) return;
   // const res = await viewerRef.value.getPictures();
-  const res = await getPictures(pdfUrl);
+  const res = await getPictures(testUrl);
   console.log(res);
 };
 const createMagnifyArea = () => {
-  viewerRef.value?.createMagnifyArea([10, 10], [120, 220], 1);
+  viewerRef.value?.createMagnifyArea([500, 10], [60, 100], 1);
 };
 const removeMagnifyArea = () => {
   viewerRef.value?.removeMagnifyArea();
@@ -93,9 +93,6 @@ setTimeout(() => {
     <button @click="viewerRef.zoomIn()">放大</button>
     <button @click="createMagnifyArea">第一页放大区域</button>
     <button @click="removeMagnifyArea">清除放大区域</button>
-    <button @click="print">图片</button>
-    <button @click="viewerRef.getPictures()">打印</button>
-    <button @click="viewerRef.zoomAuto()">还原</button>
     <!-- <d-list
       class="list"
       item-width="100px"
